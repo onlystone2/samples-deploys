@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server
+spec:
+  selector:
+    matchLabels:
+      app: eureka-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+        - name: eureka-server
+          image: docker.kw01/eureka-server:init
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s

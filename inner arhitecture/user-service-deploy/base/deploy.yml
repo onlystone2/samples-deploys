@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: onlystone2/user-service-1.0:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s

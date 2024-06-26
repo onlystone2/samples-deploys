@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-service
+spec:
+  selector:
+    matchLabels:
+      app: movie-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: movie-service
+    spec:
+      containers:
+        - name: movie-service
+          image: onlystone2/movie-service-1.0:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s

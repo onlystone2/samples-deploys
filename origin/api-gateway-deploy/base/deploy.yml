@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: docker.kw01/api-gateway:init
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s

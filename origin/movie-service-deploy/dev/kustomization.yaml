@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../base
+namePrefix: dev-
+commonLabels:
+  stage: dev
+images:
+- name: docker.kw01/movie-service
+  newTag: dev-240518-001544-8f6a28c7

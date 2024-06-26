@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-service
+spec:
+  selector:
+    matchLabels:
+      app: email-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: email-service
+    spec:
+      containers:
+        - name: email-service
+          image: docker.kw01/email-service:init
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
