@@ -34,13 +34,17 @@ spec:
           # - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
           #   value: "INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT"
 
+          - name: MY_HOST_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
           - name: MY_POD_IP
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-
           - name: KAFKA_ADVERTISED_LISTENERS
-            value: "INTERNAL://$(MY_POD_IP):29092,LISTENER_EXTERNAL://127.0.0.1:30092"
+            # value: "INTERNAL://$(MY_POD_IP):29092,LISTENER_EXTERNAL://127.0.0.1:30092"
+            value: "INTERNAL://$(MY_POD_IP):29092,LISTENER_EXTERNAL://$(MY_HOST_IP):30092"
           - name: KAFKA_LISTENERS
             value: "LISTENER_EXTERNAL://:29092,INTERNAL://:9092"
           - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
