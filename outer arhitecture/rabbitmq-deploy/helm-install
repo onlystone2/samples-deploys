@@ -1,0 +1,7 @@
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+
+h install rabbitmq oci://registry-1.docker.io/bitnamicharts/rabbitmq --namespace rabbitmq -f values.yaml
+
+
+h uninstall rabbitmq oci://registry-1.docker.io/bitnamicharts/rabbitmq --namespace rabbitmq

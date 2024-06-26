@@ -1,0 +1,23 @@
+persistence:
+  enabled: true
+  existingClaim: kafka-data-pvc
+
+zookeeper:
+  persistence:
+    existingClaim: kafka-zoo-pvc
+
+externalAccess:
+  # enabled: true
+  service:
+    type: NodePort
+    nodePorts:
+      - 30909
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001    #makesfilesystem as root user
+  runAsUser: 1001

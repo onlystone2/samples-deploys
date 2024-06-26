@@ -1,0 +1,41 @@
+h install mongodb bitnami/mongodb-sharded --namespace mongo --values values.yaml
+
+h uninstall mongodb bitnami/mongodb-sharded --namespace mongo
+
+
+
+** Please be patient while the chart is being deployed **
+
+The MongoDB&reg; Sharded cluster can be accessed via the Mongos instances in port 27017 on the following DNS name from within your cluster:
+
+    mongodb-mongodb-sharded.mongo.svc.cluster.local
+
+To get the root password run:
+
+    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongo mongodb-mongodb-sharded -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+
+To connect to your database run the following command:
+
+    kubectl run --namespace mongo mongodb-mongodb-sharded-client --rm --tty -i --restart='Never' --image docker.io/bitnami/mongodb-sharded:7.0.11-debian-12-r0 --command -- mongosh admin --host mongodb-mongodb-sharded --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
+
+To connect to your database from outside the cluster execute the following commands:
+
+    export NODE_IP=$(kubectl get nodes --namespace mongo -o jsonpath="{.items[0].status.addresses[0].address}")
+    export NODE_PORT=$(kubectl get --namespace mongo -o jsonpath="{.spec.ports[0].nodePort}" services mongodb-mongodb-sharded)
+    mongosh --host $NODE_IP --port $NODE_PORT --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
+
+
+
+@mongosh
+mongosh "mongodb://localhost:30865/admin" --username root
+
+use admin
+db.createUser(
+  {
+    user: "rootuser",
+    pwd: "rootpass",  // or cleartext password
+    roles: [
+       { role: "readWrite", db: "user" }
+    ]
+  }
+)    

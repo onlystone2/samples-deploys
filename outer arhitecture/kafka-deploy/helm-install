@@ -1,0 +1,7 @@
+h install -f values.yaml kafka bitnami/kafka --namespace kafka
+
+
+h install -f kafka bitnami/kafka --namespace kafka
+
+
+h uninstall kafka bitnami/kafka --namespace kafka

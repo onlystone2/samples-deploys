@@ -1,0 +1,14 @@
+h install postgres bitnami/postgresql `
+--namespace postgres `
+--set primary.persistence.existingClaim=postgres-pvc `
+--set global.postgresql.auth.postgresPassword=admin `
+--set global.postgresql.auth.username=postgres `
+--set global.postgresql.auth.password=12345 `
+--set global.postgresql.auth.database=cine_vision `
+--set volumePermissions.enabled=true
+
+h uninstall postgres -n postgres
+
+
+kubectl -n postgres exec -it postgres-postgresql-0 -- /opt/bitnami/scripts/postgresql/entrypoint.sh /bin/bash 
+psql -h 127.0.0.1 -p 5432 -U postgres -d cine_vision -c "select 1"

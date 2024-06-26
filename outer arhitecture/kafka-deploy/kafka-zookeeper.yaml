@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  namespace: kafka
+  name: kafka-zoo-pv
+  labels:
+    name: kafka
+spec:
+  storageClassName: "hostpath"
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  claimRef:
+    namespace: kafka
+    name: kafka-zoo-pvc
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: /data/kafka/zoo
+    type: DirectoryOrCreate
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-zoo-pvc
+  namespace: kafka
+spec:
+  storageClassName: "hostpath"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
